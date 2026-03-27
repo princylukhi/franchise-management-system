@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.fms.entity.CompanyRegistrationRequests;
 import com.fms.entity.Companies;
+
+import com.fms.entity.Users;
 import jakarta.ejb.EJB;
 
 @Stateless
@@ -20,6 +22,11 @@ public class CompanyService implements CompanyServiceLocal {
     
     @EJB
     private EmailServiceLocal emailService;
+    @EJB
+    private UserServiceLocal userService;
+    @EJB
+    private NotificationServiceLocal notificationService;
+    
 
     @Override
     public void submitCompanyRequest(CompanyRegistrationRequests request) {
@@ -65,6 +72,19 @@ public class CompanyService implements CompanyServiceLocal {
                 "Your company registration has been approved."
         );
 
+        
+         // 2️⃣ Create Super Admin (IMPORTANT)
+        Users admin = new Users();
+
+        admin.setName("Super Admin");
+        admin.setEmail(req.getEmail());
+        admin.setPassword("admin123");
+
+        // Call UserService
+        userService.createUser(admin, 2, company.getCid(), null);
+        
+        // 3️⃣ Send Notification (ADD HERE ✅)
+        notificationService.sendCompanyApproval(req.getEmail());
     }
 
     @Override
@@ -82,6 +102,8 @@ public class CompanyService implements CompanyServiceLocal {
                 "Company Registration Rejected",
                 "Your company registration request has been rejected."
         );
+        
+        notificationService.sendCompanyRejection(req.getEmail());
 
     }
 }
