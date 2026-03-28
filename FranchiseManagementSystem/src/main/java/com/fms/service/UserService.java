@@ -4,6 +4,7 @@ import com.fms.entity.Users;
 import com.fms.entity.Roles;
 import com.fms.entity.Companies;
 import com.fms.entity.Branches;
+import com.fms.util.PasswordUtil;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -26,9 +27,10 @@ public class UserService implements UserServiceLocal {
     @EJB
     private NotificationServiceLocal notificationService;
 
-    // 1️⃣ Create User (Super Admin / Franchise Owner / Manager / Staff)
     @Override
     public void createUser(Users user, int roleId, int companyId, Integer branchId) {
+
+        String plainPassword = user.getPassword();   // ✅ store original
 
         Roles role = em.find(Roles.class, roleId);
         Companies company = em.find(Companies.class, companyId);
@@ -38,25 +40,21 @@ public class UserService implements UserServiceLocal {
         user.setCreatedDate(new Date());
         user.setStatus("ACTIVE");
 
-        // If branch user (manager/staff)
         if (branchId != null) {
             Branches branch = em.find(Branches.class, branchId);
             user.setBid(branch);
         }
 
+        // 🔐 Encrypt password
+        user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
+
         em.persist(user);
 
-//        // Send Email
-//        emailService.sendEmail(
-//                user.getEmail(),
-//                "Account Created",
-//                "Your account has been created.\nEmail: " + user.getEmail()
-//        );
-
-// Send Credentials Notification
-        notificationService.sendCredentials(user.getEmail(), user.getPassword());
+        // 📧 Send plain password to user
+        notificationService.sendCredentials(user.getEmail(), plainPassword);
     }
-
+    
+    
     // 2️⃣ Get users by company
     @Override
     public List<Users> getUsersByCompany(int companyId) {
@@ -110,10 +108,39 @@ public class UserService implements UserServiceLocal {
     public Users findUserByEmail(String email) {
 
         Query q = em.createNamedQuery("Users.findByEmail");
-
         q.setParameter("email", email);
 
-        return (Users) q.getSingleResult();
+        List<Users> list = q.getResultList();
+
+        return list.isEmpty() ? null : list.get(0);
+    }
+    
+    @Override
+    public Users login(String email, String password) {
+
+
+    Query q = em.createNamedQuery("Users.findByEmail");
+    q.setParameter("email", email);
+
+    List<Users> list = q.getResultList();
+
+    if (list.isEmpty()) {
+        return null;
     }
 
+    Users user = list.get(0);
+
+    // Check password using BCrypt
+    if (PasswordUtil.checkPassword(password, user.getPassword())) {
+
+        // Check status
+        if (!user.getStatus().equals("ACTIVE")) {
+            return null;
+        }
+
+        return user;
+    }
+
+    return null;
+    }        
 }

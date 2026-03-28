@@ -1,6 +1,7 @@
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\ReportServiceLocal.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\UserServiceLocal.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\InventoryService.java
+C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\util\PasswordUtil.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\NotificationServiceLocal.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\entity\Branches.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\FranchiseServiceLocal.java
@@ -23,6 +24,7 @@ C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementS
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\FranchiseService.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\NotificationService.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\entity\FranchiseRequests.java
+C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\bean\LoginBean.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\service\CompanyServiceLocal.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\mycompany\franchisemanagementsystem\resources\JakartaEE10Resource.java
 C:\Users\hardp\Documents\GitHub\franchise-management-system\FranchiseManagementSystem\src\main\java\com\fms\entity\Feedbacks.java

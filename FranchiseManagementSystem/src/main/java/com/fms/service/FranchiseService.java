@@ -75,6 +75,14 @@ public class FranchiseService implements FranchiseServiceLocal {
         req.setStatus("REJECTED");
 
         em.merge(req);
+        
+        notificationService.sendNotification(
+            req.getEmail(),
+            "Franchise Rejected",
+            "Your franchise request has been rejected.",
+            "FRANCHISE_REJECTION"
+    );
+        
     }
 
     @Override

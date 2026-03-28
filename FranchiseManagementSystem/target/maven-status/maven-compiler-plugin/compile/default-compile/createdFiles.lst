@@ -17,6 +17,7 @@ com\fms\entity\Invoices.class
 com\fms\entity\FranchiseRequests.class
 com\fms\entity\Franchises.class
 com\fms\entity\Payments.class
+com\fms\util\PasswordUtil.class
 com\fms\service\InventoryService.class
 com\fms\entity\Roles.class
 com\fms\service\InvoiceService.class
@@ -37,6 +38,7 @@ com\fms\service\ReportService.class
 com\fms\entity\Users.class
 com\fms\service\FeedbackServiceLocal.class
 com\fms\service\EmailService.class
+com\fms\bean\LoginBean.class
 com\fms\service\BranchServiceLocal.class
 com\fms\service\ProductServiceLocal.class
 com\mycompany\franchisemanagementsystem\JakartaRestConfiguration.class

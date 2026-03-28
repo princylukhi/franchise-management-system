@@ -12,6 +12,7 @@ import com.fms.entity.CompanyRegistrationRequests;
 import com.fms.entity.Companies;
 
 import com.fms.entity.Users;
+import com.fms.util.PasswordUtil;
 import jakarta.ejb.EJB;
 
 @Stateless
@@ -70,9 +71,7 @@ public class CompanyService implements CompanyServiceLocal {
 
         admin.setName("Super Admin");
         admin.setEmail(req.getEmail());
-        admin.setPassword("admin123");
-
-        // Call UserService
+        admin.setPassword("admin123");   // plain password        // Call UserService
         userService.createUser(admin, 2, company.getCid(), null);
         
         // 3️⃣ Send Notification (ADD HERE ✅)

@@ -30,4 +30,6 @@ public interface UserServiceLocal {
     // Find user (login purpose)
     public Users findUserByEmail(String email);
     
+    public Users login(String email, String password);
+    
 }
