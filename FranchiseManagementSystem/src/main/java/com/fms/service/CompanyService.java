@@ -46,35 +46,60 @@ public class CompanyService implements CompanyServiceLocal {
 
         return q.getResultList();
     }
-
     @Override
     public void approveCompany(int requestId) {
 
         CompanyRegistrationRequests req =
                 em.find(CompanyRegistrationRequests.class, requestId);
 
+        // ✅ FIX 1: Update request status
         req.setStatus("APPROVED");
         req.setApprovedDate(new Date());
+        em.merge(req);
 
-        Companies company = new Companies();
+        // 🔍 Check if company already exists
+        Companies existing = null;
 
-        company.setCompanyName(req.getCompanyName());
-        company.setEmail(req.getEmail());
-        company.setStatus("ACTIVE");
-        company.setCreatedDate(new Date());
+        try {
+            existing = (Companies) em.createQuery(
+                "SELECT c FROM Companies c WHERE c.companyName = :name")
+                .setParameter("name", req.getCompanyName())
+                .getSingleResult();
+        } catch (Exception e) {
+            // no result → ok
+        }
 
-        em.persist(company);
+        Companies company;
 
-        
-         // 2️⃣ Create Super Admin (IMPORTANT)
+        if (existing != null) {
+            company = existing;
+        } else {
+            company = new Companies();
+
+            company.setCompanyName(req.getCompanyName());
+            company.setEmail(req.getEmail());
+            company.setStatus("ACTIVE");
+            company.setCreatedDate(new Date());
+
+            em.persist(company);
+            em.flush(); // 🔥 ensures ID is generated
+        }
+
+        // ✅ FIX 2: Safety check
+        if (company.getCid() == null) {
+            throw new RuntimeException("Company ID not generated!");
+        }
+
+        // Create Super Admin
         Users admin = new Users();
 
         admin.setName("Super Admin");
         admin.setEmail(req.getEmail());
-        admin.setPassword("admin123");   // plain password        // Call UserService
+        admin.setPassword("admin123");
+
         userService.createUser(admin, 2, company.getCid(), null);
-        
-        // 3️⃣ Send Notification (ADD HERE ✅)
+
+        // Send Notification
         notificationService.sendCompanyApproval(req.getEmail());
     }
 

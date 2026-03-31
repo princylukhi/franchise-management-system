@@ -58,6 +58,7 @@ public class CompanyRest {
     public String approve(@PathParam("id") int id) {
 
         companyService.approveCompany(id);
+        
 
         return "Company Approved + Admin Created";
     }

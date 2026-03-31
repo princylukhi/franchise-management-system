@@ -145,7 +145,7 @@ public Response getAllRequests() {
         }
 
     // 🔥 6. Get Franchise by Company
-    @GET
+        @GET
         @Path("/company/{cid}")
         @Produces(MediaType.APPLICATION_JSON)
         public Response getByCompany(@PathParam("cid") int cid) {
