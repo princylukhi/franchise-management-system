@@ -2,6 +2,9 @@
 
 FranchiSync is a web-based Franchise Management System developed as part of MSc IT (Semester 8) to manage franchise operations and business workflows.
 
+## Project Type
+Group Project
+
 ## Status
 Ongoing
 
